@@ -2,9 +2,16 @@
 #include <iostream>
 #include <fstream> // ofstream
 #include <stdlib.h>
+#include <tuple>
 
 
-Array::Array(){ } //Default constructor creation
+using namespace std;
+
+Array::Array()
+{
+    arrayData = NULL;
+    sizeOfArray = 0;
+} //Default constructor creation
 
 Array::Array(int val) // copy constructor with size
 {
@@ -19,18 +26,64 @@ Array::Array(int val) // copy constructor with size
     }
 
 }
-Array::~Array(){ } // Destructor for the class
+Array::~Array()
+{
+    delete[] arrayData;
+} // Destructor for the class
 int Array::getsize()
    {
         return sizeOfArray;
    }
+int Array::getElement(int index)
+{
+    if(index < 0)
+    {
+        cout<<"Too small index \n";
+        return -1;
+    }
+    else if(index >= sizeOfArray)
+    {
+        cout<<"Too large index \n";
+        return -1;
+    }
+    else
+    return
+     arrayData[index];
+}
+void Array::setElement(int index,int value)
+{
+    arrayData[index] = value;
+}
+int& Array::operator[] (unsigned index)
+{
+    try
+    {
+        return arrayData[index];
+    }
+    catch (exception& e)
+    {
+        cout<<"Index out of bound "<<e.what()<<endl;
+    }
+}
+bool Array::isThere(int target)
+{
+    for(int index = 0; index < sizeOfArray; index++)
+    {
+        if(arrayData[index] == target)
+        {
+            return true;
+        }
+    }
+    return false;
+
+}
 void Array::Display()
 {
     for(int i = 0; i < sizeOfArray; i++)
     {
-        std::cout<<arrayData[i]<<" ";
+        cout<<arrayData[i]<<" ";
     }
-    std::cout<<std::endl;
+    cout<<endl;
 }
 void Array::addElementBeginnig(int Top)
 {
@@ -82,7 +135,7 @@ int Array::sumArray()
 }
 void Array::fDisplay(char* filename)
 {
-    std::ofstream myfile;
+    ofstream myfile;
     myfile.open(filename);
     for(int i = 0; i < sizeOfArray; i++)
     {
